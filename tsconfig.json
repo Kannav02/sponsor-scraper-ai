@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    // other necessary compiler options
+  },
+  "include": [
+    "src/**/*"  // Include all files in the src directory
+  ],
+  "exclude": [
+    "node_modules",  // Standard practice to exclude node_modules
+    "**/*.spec.ts",  // Exclude test files, if any
+    "youtube-sponsor-vids/**/*"  // Exclude all files in the youtube-sponsor-vids directory
+  ]
+}

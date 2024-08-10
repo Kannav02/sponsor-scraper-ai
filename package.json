@@ -1,0 +1,28 @@
+{
+  "name": "youtube-scraper",
+  "version": "1.0.2",
+  "main": "index.js",
+  "bin": {
+    "sponscan": "dist/index.js"
+  },
+  "scripts": {
+    "ts-server": "cd youtube-sponsor-vids && npm run dev && cd ../ ",
+    "py-server": "cd python-youtube-service && source .venv/bin/activate && python3 app.py && cd ../",
+    "start-all": "npm-run-all  --parallel ts-server py-server",
+    "stop-all": "npm run kill-ts-server && npm run kill-py-server",
+    "kill-ts-server": "kill $(lsof -t -i:8787)",
+    "kill-py-server": "kill $(lsof -t -i:3002)"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@clack/prompts": "^0.7.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.5.4"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2"
+  }
+}

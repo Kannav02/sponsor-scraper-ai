@@ -31,7 +31,8 @@ const getGroqChatCompletion=async (groqInstance:any,inputFields:{
             }
 
         ],
-        model: "llama3-8b-8192",
+        model: "llama3-70b-8192",
+        temperature:0.1
     })
     return data
 }
