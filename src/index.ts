@@ -1,7 +1,18 @@
 #!/usr/bin/env node
 
 import { exec } from "child_process";
-import { intro, outro, text, spinner } from "@clack/prompts";
+import { intro, outro, text, spinner, isCancel } from "@clack/prompts";
+
+const stopAllProcesses = () => {
+  exec("npm run stop-all", (err, stdout, stdin) => {
+    if (err) {
+      console.log(err);
+      console.log("Error Found");
+    }
+  });
+};
+
+process.on("SIGINT", stopAllProcesses);
 
 const runCommand = async () => {
   intro("Youtube Sponsor View CLI");
@@ -15,6 +26,11 @@ const runCommand = async () => {
         : "Please enter a valid YouTube URL";
     },
   });
+
+  if (isCancel(youtubeUrl)) {
+    console.log("The operation has been cancelled");
+    process.exit(1);
+  }
 
   if (!youtubeUrl) {
     console.error("Valid URL is Required");
@@ -44,28 +60,22 @@ const runCommand = async () => {
         }),
       }
     );
-    s.stop("Got the response")
+    s.stop("Got the response");
 
     if (!response.ok) {
       throw new Error("Unexpected Server Error " + response.status);
     }
-    
-    
+
     const data = await response.json();
     console.log("Response : " + data.mssg.choices[0].message.content);
   } catch (e) {
     console.log(e);
     console.error("Unexpected Error Occured");
+    stopAllProcesses()
     process.exit(1);
   }
   outro("Operation Completed");
-
-  exec("npm run stop-all", (err, stdout, stdin) => {
-    if (err) {
-      console.log(err);
-      console.log("Error Found");
-    }
-  });
+  stopAllProcesses();
   process.exit(0);
 };
 runCommand();

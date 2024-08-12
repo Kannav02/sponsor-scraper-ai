@@ -39,6 +39,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var child_process_1 = require("child_process");
 var prompts_1 = require("@clack/prompts");
+var stopAllProcesses = function () {
+    (0, child_process_1.exec)("npm run stop-all", function (err, stdout, stdin) {
+        if (err) {
+            console.log(err);
+            console.log("Error Found");
+        }
+    });
+};
+process.on("SIGINT", stopAllProcesses);
 var runCommand = function () { return __awaiter(void 0, void 0, void 0, function () {
     var youtubeUrl, urlString, serverProcess, s, parsedData, response, data, e_1;
     return __generator(this, function (_a) {
@@ -56,6 +65,10 @@ var runCommand = function () { return __awaiter(void 0, void 0, void 0, function
                     })];
             case 1:
                 youtubeUrl = _a.sent();
+                if ((0, prompts_1.isCancel)(youtubeUrl)) {
+                    console.log("The operation has been cancelled");
+                    process.exit(1);
+                }
                 if (!youtubeUrl) {
                     console.error("Valid URL is Required");
                     process.exit(1);
@@ -105,12 +118,7 @@ var runCommand = function () { return __awaiter(void 0, void 0, void 0, function
                 return [3 /*break*/, 8];
             case 8:
                 (0, prompts_1.outro)("Operation Completed");
-                (0, child_process_1.exec)("npm run stop-all", function (err, stdout, stdin) {
-                    if (err) {
-                        console.log(err);
-                        console.log("Error Found");
-                    }
-                });
+                stopAllProcesses();
                 process.exit(0);
                 return [2 /*return*/];
         }
