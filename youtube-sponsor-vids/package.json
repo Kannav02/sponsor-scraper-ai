@@ -1,8 +1,10 @@
 {
   "name": "youtube-sponsor-vids",
+  "type": "module",
   "scripts": {
     "dev": "wrangler dev src/index.ts",
-    "deploy": "wrangler deploy --minify src/index.ts"
+    "deploy": "wrangler deploy --minify src/index.ts",
+    "build": "npx tsc -b"
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
@@ -13,6 +15,7 @@
     "@cloudflare/workers-types": "^4.20240529.0",
     "@types/node": "^20.14.10",
     "groq-sdk": "^0.5.0",
+    "typescript": "^5.5.4",
     "wrangler": "^3.57.2"
   }
 }

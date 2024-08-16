@@ -1,0 +1,13 @@
+services:
+  python-service:
+    build: ./python-youtube-service
+    ports:
+      - "3002:3002"
+    container_name: python-service
+  main-server:
+    build: ./youtube-sponsor-vids
+    ports:
+    - "8787:8787"
+    container_name: main-server
+
+  

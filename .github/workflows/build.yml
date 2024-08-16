@@ -1,0 +1,43 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checks Out The Repository
+        uses: actions/checkout@v3
+
+      - name: Log in to dockerhub
+        uses: docker/login-actions@v1
+        with:
+          username: ${{secrets.DOCKER_USERNAME}}
+          password: ${{secrets.DOCKER_SECRET}}
+      - name: Build and Push Dockerfile 1
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfiles/Dockerfile.mainServer
+          push: true
+          tags: kannav02/main-server
+
+      - name: Build and Push Dockerfile 2
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfiles/Dockerfile.python
+          push: true
+          tags: kannav02/python-scraper
+
+      - name: Verify both images
+        run: |
+          docker pull kannav02/main-server
+          docker pull kannav02/python-scraper
